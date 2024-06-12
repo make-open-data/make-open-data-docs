@@ -15,10 +15,10 @@ WITH knn AS (
         a.id AS id,
         AVG(b.valeur) AS mean_knn_value
     FROM 
-        "test_db"."public"."fake_knn_data" a
+        "make_open_data"."prep"."fake_knn_data" a
         JOIN LATERAL (
             SELECT valeur
-            FROM "test_db"."public"."fake_knn_data"
+            FROM "make_open_data"."prep"."fake_knn_data"
             WHERE id != a.id
             ORDER BY ST_SetSRID(ST_MakePoint(a.longitude, a.latitude), 4326) <-> ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)
             LIMIT 2
@@ -30,7 +30,7 @@ SELECT
     a.*,
     b.mean_knn_value
 FROM 
-    "test_db"."public"."fake_knn_data" a
+    "make_open_data"."prep"."fake_knn_data" a
     JOIN knn b ON a.id = b.id
 
 )

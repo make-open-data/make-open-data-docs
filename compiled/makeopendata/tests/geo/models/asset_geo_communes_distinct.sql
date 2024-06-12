@@ -3,9 +3,9 @@
 
 
 with counts as (
-    SELECT code_commune_insee, COUNT(*) as num_com
-    FROM "test_db"."public"."geo_communes"
-    GROUP BY code_commune_insee
+    SELECT code_commune, COUNT(*) as num_com
+    FROM "make_open_data"."prep"."geo_communes"
+    GROUP BY code_commune
 )
 
 select *
