@@ -1,21 +1,9 @@
 
-  
+  create view "make_open_data"."prep"."geo_postaux__dbt_tmp"
     
-
-  create  table "make_open_data"."prep"."geo_postaux__dbt_tmp"
-  
-  
-    as
-  
-  (
-    /*
-    Merge all data to commune level
-
-
-    Try changing "table" to "view" below
-*/
-
-
+    
+  as (
+    
 
 with format_cog_poste as (
     select DISTINCT
@@ -48,4 +36,3 @@ join_regions as (
 select *
 from join_regions
   );
-  

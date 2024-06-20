@@ -1,7 +1,3 @@
-/*
-    Fournit une tables des communes avec les informations dénormalisées
-*/
-
 
 
 with filtre_cog_communes as (

@@ -1,10 +1,3 @@
-/*
-    Merge all data to commune level
-
-
-    Try changing "table" to "view" below
-*/
-
 
 
 with format_cog_poste as (

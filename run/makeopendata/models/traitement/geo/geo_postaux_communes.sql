@@ -8,11 +8,7 @@
     as
   
   (
-    --- Un code postal peut appartenir à plusieurs communes
---- Une code commune insee peut appartenir plusieurs codes postaux
---- On crée une table de passage pour avoir une relation unique entre les codes postaux et les codes communes insee
-
-
+    
 
 with unique_codes_communes_postaux as (
     select DISTINCT
