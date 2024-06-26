@@ -4,7 +4,7 @@ WITH counts as (
     select 
         cog_regions.code,
         count(*) as num_reg
-    from "make_open_data"."sources"."cog_regions" as cog_regions
+    from "defaultdb"."sources"."cog_regions" as cog_regions
     group by cog_regions.code
 )
 

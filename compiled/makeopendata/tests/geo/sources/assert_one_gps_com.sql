@@ -6,7 +6,7 @@
 
 with source as (
     SELECT code_commune_insee, COUNT(DISTINCT _geopoint) as geopoint_count
-    FROM "make_open_data"."sources"."cog_poste" as cog_poste
+    FROM "defaultdb"."sources"."cog_poste" as cog_poste
     GROUP BY code_commune_insee
 )
 

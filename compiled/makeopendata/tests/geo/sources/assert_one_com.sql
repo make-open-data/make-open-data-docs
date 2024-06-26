@@ -6,7 +6,7 @@ WITH counts as (
     select 
         cog_communes.code,
         count(*) as num_com
-    from "make_open_data"."sources"."cog_communes"  as cog_communes
+    from "defaultdb"."sources"."cog_communes"  as cog_communes
     where cog_communes.type = 'commune-actuelle'
     group by cog_communes.code
 )

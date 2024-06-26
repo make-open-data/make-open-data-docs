@@ -4,7 +4,7 @@ WITH counts as (
     select 
         cog_departements.code,
         count(*) as num_dep
-    from "make_open_data"."sources"."cog_departements" as cog_departements
+    from "defaultdb"."sources"."cog_departements" as cog_departements
     group by cog_departements.code
 )
 

@@ -9,7 +9,7 @@
 
 with source as (
     SELECT COUNT(DISTINCT code_commune) as commune_count
-    FROM "make_open_data"."prep"."geo_communes"
+    FROM "defaultdb"."prep"."geo_communes"
 )
 
 select *

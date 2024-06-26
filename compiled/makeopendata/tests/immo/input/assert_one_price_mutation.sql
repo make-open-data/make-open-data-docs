@@ -11,7 +11,7 @@ WITH mutation_values AS (
         longitude,
         valeur_fonciere
     FROM 
-        "make_open_data"."sources"."dvf_2023" as dvf_2023
+        "defaultdb"."sources"."dvf_2023" as dvf_2023
 ),
 
 mutation_value_counts AS (

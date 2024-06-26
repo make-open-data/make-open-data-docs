@@ -4,7 +4,7 @@
 
 with counts as (
     SELECT code_postal, COUNT(*) as num_cp
-    FROM "make_open_data"."prep"."geo_postaux"
+    FROM "defaultdb"."prep"."geo_postaux"
     GROUP BY code_postal
 )
 

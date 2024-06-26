@@ -4,7 +4,7 @@ WITH counts as (
     select 
         cog_arrondissements.code,
         count(*) as num_arr
-    from "make_open_data"."sources"."cog_arrondissements"  as cog_arrondissements 
+    from "defaultdb"."sources"."cog_arrondissements"  as cog_arrondissements 
     group by cog_arrondissements.code
 )
 
