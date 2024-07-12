@@ -10,7 +10,7 @@
 with communes as (
     SELECT 
       code_commune_insee,
-      SUM(CAST(poids_du_logement AS numeric)) AS nombre_de_logements
+      CAST( SUM(CAST(poids_du_logement AS numeric)) AS INT) AS nombre_de_logements
     FROM 
       "defaultdb"."prep"."decoder_demographie"
     GROUP BY
@@ -197,7 +197,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -556,7 +556,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -1005,7 +1005,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -1364,7 +1364,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -1678,7 +1678,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -1932,7 +1932,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -2216,7 +2216,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -2725,7 +2725,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -3294,7 +3294,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -3593,7 +3593,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -4177,7 +4177,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -4746,7 +4746,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -5240,7 +5240,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -5539,7 +5539,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -5958,7 +5958,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -6407,7 +6407,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -7036,7 +7036,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -7410,7 +7410,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -7799,7 +7799,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -8218,7 +8218,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -8787,7 +8787,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -9116,7 +9116,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -9460,7 +9460,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -9774,7 +9774,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -10238,7 +10238,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -10492,7 +10492,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -11031,7 +11031,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -11435,7 +11435,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -11779,7 +11779,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -12093,7 +12093,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -12437,7 +12437,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -12886,7 +12886,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -13155,7 +13155,7 @@ deduplicated as (
         code_commune_insee,
         champs,
         champs__valeur,
-        SUM(CAST(poids_du_logement as NUMERIC)) as population_par_commune_champs_valeur
+        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_commune_champs_valeur
     FROM
         concatenated
     GROUP BY
@@ -13656,9 +13656,19 @@ select * from pivoted
 
     
 
+  ),
+  aggregated_with_cog as (
+    SELECT
+      *
+    FROM
+      aggregated
+    JOIN
+	    "defaultdb"."prep"."geo_communes" as cog
+    ON
+      aggregated.code_commune_insee = cog.code_commune
   )
 
 SELECT 
     *  
 FROM
-    aggregated
+    aggregated_with_cog
