@@ -22,7 +22,7 @@ WITH knn AS (
             SELECT valeur
             FROM "defaultdb"."prep"."fake_knn_data"
             WHERE id != a.id
-            ORDER BY ST_SetSRID(ST_MakePoint(a.longitude, a.latitude), 4326) <-> ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)
+            ORDER BY a.geopoint <-> geopoint
             LIMIT 2
         ) b ON TRUE
     GROUP BY a.id
