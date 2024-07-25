@@ -15,35 +15,32 @@ computed AS (
 WITH knn AS (
     SELECT 
         a.id AS id,
-        AVG(b.valeur) AS mean_knn_value
+        AVG(b.valeur) AS prix_m2_knn_2
     FROM 
         "defaultdb"."prep"."fake_knn_data" a
         JOIN LATERAL (
             SELECT valeur
             FROM "defaultdb"."prep"."fake_knn_data"
-            WHERE id != a.id
+            WHERE (id != a.id)
             ORDER BY a.geopoint <-> geopoint
             LIMIT 2
         ) b ON TRUE
     GROUP BY a.id
 )
 
-SELECT 
-    a.*,
-    b.mean_knn_value
-FROM 
-    "defaultdb"."prep"."fake_knn_data" a
-    JOIN knn b ON a.id = b.id
+SELECT * FROM knn
+
+
 
 )
 
 -- Compare computed and expected values
 SELECT 
     computed.id, 
-    computed.mean_knn_value AS computed_valeur, 
+    computed.prix_m2_knn_2 AS computed_valeur, 
     expected.expected_valeur
 FROM 
     computed
     JOIN expected ON computed.id = expected.id
 WHERE
-    computed.mean_knn_value != expected.expected_valeur
+    computed.prix_m2_knn_2 != expected.expected_valeur
