@@ -1,0 +1,14 @@
+
+    
+    
+    
+    create table "defaultdb"."prepare"."logement_2020_demographie_codes" ("code_col" text,"lib_col" text,"code_ou_libelle_valeurs" text)
+  ;
+    -- dbt seed --
+    
+          insert into "defaultdb"."prepare"."logement_2020_demographie_codes" ("code_col", "lib_col", "code_ou_libelle_valeurs") values
+          (%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s)
+      
+
+;
+  
