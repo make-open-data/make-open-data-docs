@@ -16,21 +16,19 @@
 
 
 
+with aggregated as (
+  
 
 
 
 
 
-
-
-
-
-with iris as (
+with poids_par_geo as (
     SELECT 
-      "IRIS" as code_iris,
-      CAST( SUM(CAST("IPONDL" AS numeric)) AS INT) AS nombre_de_logements
-    FROM 
-      "defaultdb"."sources"."logement_2020"
+      code_iris,
+      CAST( SUM(CAST(poids_du_logement AS numeric)) AS INT) AS nombre_de_logements
+    FROM
+      "defaultdb"."intermediaires"."demographie_renomee"
     GROUP BY
       code_iris
   ),
@@ -38,12 +36,11 @@ with iris as (
 
     SELECT * 
 
-    FROM iris
+    FROM poids_par_geo
 
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -59,210 +56,6 @@ with unpivoted as (
 
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -321,11 +114,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP15M' as TEXT) as "champs",
       cast(  
@@ -333,103 +125,58 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP15M_0'  , 
+            'menages_avec_0_personne_15_ans_et_moins'  , 
         
-            'INP15M_1'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_10'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_11'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_12'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_13'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_14'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_15'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_2'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_3'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_4'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_5'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_6'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_7'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_8'  , 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins'  , 
         
-            'INP15M_9' 
+            'menages_avec_1_et_plus_personnes_15_ans_et_moins' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP15M_0' then 'menages_avec_0_personne_15_ans_et_moins'
-            
-                when 'INP15M_1' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_10' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_11' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_12' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_13' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_14' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_15' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_2' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_3' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_4' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_5' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_6' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_7' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_8' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-                when 'INP15M_9' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -482,8 +229,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_15_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_15_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -497,8 +244,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -511,7 +258,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -531,7 +278,6 @@ select * from pivoted
 
 
 
-
 with unpivoted as (
       
 
@@ -545,210 +291,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -803,11 +345,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INPER1' as TEXT) as "champs",
       cast(  
@@ -815,135 +356,74 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INPER1_0'  , 
+            'menages_avec_0_personne_masculin'  , 
         
-            'INPER1_1'  , 
+            'menages_avec_1_personne_masculin'  , 
         
-            'INPER1_10'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_11'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_12'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_13'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_14'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_15'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_16'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_17'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_18'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_19'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_2'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_20'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_22'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_26'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_3'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_38'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_4'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_5'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_6'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_7'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_8'  , 
+            'menages_avec_2_et_plus_personnes_masculin'  , 
         
-            'INPER1_9' 
+            'menages_avec_2_et_plus_personnes_masculin' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INPER1_0' then 'menages_avec_0_personne_masculin'
-            
-                when 'INPER1_1' then 'menages_avec_1_personne_masculin'
-            
-                when 'INPER1_10' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_11' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_12' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_13' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_14' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_15' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_16' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_17' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_18' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_19' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_2' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_20' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_22' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_26' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_3' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_38' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_4' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_5' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_6' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_7' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_8' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-                when 'INPER1_9' then 'menages_avec_2_et_plus_personnes_masculin'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -1014,8 +494,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_masculin'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_masculin'
+        then poids_du_logement
       else 0
       end
     )
@@ -1029,8 +509,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_personne_masculin'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_personne_masculin'
+        then poids_du_logement
       else 0
       end
     )
@@ -1044,8 +524,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_2_et_plus_personnes_masculin'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_2_et_plus_personnes_masculin'
+        then poids_du_logement
       else 0
       end
     )
@@ -1058,7 +538,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -1072,7 +552,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -1096,210 +575,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -1350,11 +625,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('SEXEM' as TEXT) as "champs",
       cast(  
@@ -1362,47 +636,30 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'SEXEM_1'  , 
+            'menages_pr_homme'  , 
         
-            'SEXEM_2' 
+            'menages_pr_femmes' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'SEXEM_1' then 'menages_pr_homme'
-            
-                when 'SEXEM_2' then 'menages_pr_femmes'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -1427,8 +684,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_homme'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_homme'
+        then poids_du_logement
       else 0
       end
     )
@@ -1442,8 +699,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_femmes'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_femmes'
+        then poids_du_logement
       else 0
       end
     )
@@ -1456,7 +713,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -1470,7 +727,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -1498,210 +754,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -1748,11 +800,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INPER2' as TEXT) as "champs",
       cast(  
@@ -1760,123 +811,68 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INPER2_0'  , 
+            'menages_avec_0_personne_feminin'  , 
         
-            'INPER2_1'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_10'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_11'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_12'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_13'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_14'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_15'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_16'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_17'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_19'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_2'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_20'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_3'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_39'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_4'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_5'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_6'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_7'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_8'  , 
+            'menages_avec_1_personne_feminin'  , 
         
-            'INPER2_9' 
+            'menages_avec_1_personne_feminin' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INPER2_0' then 'menages_avec_0_personne_feminin'
-            
-                when 'INPER2_1' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_10' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_11' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_12' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_13' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_14' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_15' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_16' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_17' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_19' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_2' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_20' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_3' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_39' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_4' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_5' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_6' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_7' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_8' then 'menages_avec_1_personne_feminin'
-            
-                when 'INPER2_9' then 'menages_avec_1_personne_feminin'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -1939,8 +935,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_feminin'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_feminin'
+        then poids_du_logement
       else 0
       end
     )
@@ -1954,8 +950,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_personne_feminin'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_personne_feminin'
+        then poids_du_logement
       else 0
       end
     )
@@ -1968,7 +964,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -1982,7 +978,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -2014,210 +1009,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -2260,11 +1051,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP3M' as TEXT) as "champs",
       cast(  
@@ -2272,75 +1062,44 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP3M_0'  , 
+            'menages_avec_0_personne_3_ans_et_moins'  , 
         
-            'INP3M_1'  , 
+            'menages_avec_1_et_plus_personnes_3_ans_et_moins'  , 
         
-            'INP3M_2'  , 
+            'menages_avec_1_et_plus_personnes_3_ans_et_moins'  , 
         
-            'INP3M_3'  , 
+            'menages_avec_1_et_plus_personnes_3_ans_et_moins'  , 
         
-            'INP3M_4'  , 
+            'menages_avec_1_et_plus_personnes_3_ans_et_moins'  , 
         
-            'INP3M_5'  , 
+            'menages_avec_1_et_plus_personnes_3_ans_et_moins'  , 
         
-            'INP3M_6'  , 
+            'menages_avec_1_et_plus_personnes_3_ans_et_moins'  , 
         
-            'INP3M_7'  , 
+            'menages_avec_1_et_plus_personnes_3_ans_et_moins'  , 
         
-            'INP3M_8' 
+            'menages_avec_1_et_plus_personnes_3_ans_et_moins' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP3M_0' then 'menages_avec_0_personne_3_ans_et_moins'
-            
-                when 'INP3M_1' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-            
-                when 'INP3M_2' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-            
-                when 'INP3M_3' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-            
-                when 'INP3M_4' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-            
-                when 'INP3M_5' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-            
-                when 'INP3M_6' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-            
-                when 'INP3M_7' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-            
-                when 'INP3M_8' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -2379,8 +1138,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_3_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_3_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -2394,8 +1153,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -2408,7 +1167,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -2422,7 +1181,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -2458,210 +1216,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -2700,11 +1254,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP65M' as TEXT) as "champs",
       cast(  
@@ -2712,99 +1265,56 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP65M_0'  , 
+            'menages_avec_0_personne_65_ans_et_plus'  , 
         
-            'INP65M_1'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_11'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_12'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_16'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_18'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_2'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_3'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_4'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_5'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_55'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_6'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_7'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_8'  , 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus'  , 
         
-            'INP65M_9' 
+            'menages_avec_1_et_plus_personnes_65_ans_et_plus' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP65M_0' then 'menages_avec_0_personne_65_ans_et_plus'
-            
-                when 'INP65M_1' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_11' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_12' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_16' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_18' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_2' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_3' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_4' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_5' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_55' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_6' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_7' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_8' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-                when 'INP65M_9' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -2855,8 +1365,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_65_ans_et_plus'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_65_ans_et_plus'
+        then poids_du_logement
       else 0
       end
     )
@@ -2870,8 +1380,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+        then poids_du_logement
       else 0
       end
     )
@@ -2884,7 +1394,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -2898,7 +1408,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -2938,210 +1447,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -3176,11 +1481,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP11M' as TEXT) as "champs",
       cast(  
@@ -3188,99 +1492,56 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP11M_0'  , 
+            'menages_avec_0_personne_11_ans_et_moins'  , 
         
-            'INP11M_1'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_10'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_11'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_12'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_13'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_14'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_2'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_3'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_4'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_5'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_6'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_7'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_8'  , 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins'  , 
         
-            'INP11M_9' 
+            'menages_avec_1_et_plus_personnes_11_ans_et_moins' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP11M_0' then 'menages_avec_0_personne_11_ans_et_moins'
-            
-                when 'INP11M_1' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_10' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_11' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_12' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_13' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_14' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_2' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_3' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_4' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_5' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_6' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_7' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_8' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-                when 'INP11M_9' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -3331,8 +1592,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_11_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_11_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -3346,8 +1607,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -3360,7 +1621,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -3374,7 +1635,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -3418,210 +1678,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -3652,11 +1708,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INPER' as TEXT) as "champs",
       cast(  
@@ -3664,159 +1719,86 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INPER_1'  , 
+            'menages_avec_1_personne'  , 
         
-            'INPER_10'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_11'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_12'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_13'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_14'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_15'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_16'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_17'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_18'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_19'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_2'  , 
+            'menages_avec_2_personnes'  , 
         
-            'INPER_20'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_21'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_22'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_23'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_24'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_25'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_26'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_28'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_3'  , 
+            'menages_avec_3_personnes'  , 
         
-            'INPER_34'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_4'  , 
+            'menages_avec_4_personnes'  , 
         
-            'INPER_41'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_5'  , 
+            'menages_avec_5_personnes'  , 
         
-            'INPER_55'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_6'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_7'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_8'  , 
+            'menages_avec_6_et_plus_personnes'  , 
         
-            'INPER_9' 
+            'menages_avec_6_et_plus_personnes' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INPER_1' then 'menages_avec_1_personne'
-            
-                when 'INPER_10' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_11' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_12' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_13' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_14' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_15' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_16' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_17' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_18' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_19' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_2' then 'menages_avec_2_personnes'
-            
-                when 'INPER_20' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_21' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_22' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_23' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_24' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_25' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_26' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_28' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_3' then 'menages_avec_3_personnes'
-            
-                when 'INPER_34' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_4' then 'menages_avec_4_personnes'
-            
-                when 'INPER_41' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_5' then 'menages_avec_5_personnes'
-            
-                when 'INPER_55' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_6' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_7' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_8' then 'menages_avec_6_et_plus_personnes'
-            
-                when 'INPER_9' then 'menages_avec_6_et_plus_personnes'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -3905,8 +1887,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_personne'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_personne'
+        then poids_du_logement
       else 0
       end
     )
@@ -3920,8 +1902,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_6_et_plus_personnes'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_6_et_plus_personnes'
+        then poids_du_logement
       else 0
       end
     )
@@ -3935,8 +1917,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_2_personnes'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_2_personnes'
+        then poids_du_logement
       else 0
       end
     )
@@ -3950,8 +1932,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_3_personnes'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_3_personnes'
+        then poids_du_logement
       else 0
       end
     )
@@ -3965,8 +1947,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_4_personnes'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_4_personnes'
+        then poids_du_logement
       else 0
       end
     )
@@ -3980,8 +1962,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_5_personnes'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_5_personnes'
+        then poids_du_logement
       else 0
       end
     )
@@ -3994,7 +1976,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -4008,7 +1990,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -4056,210 +2037,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -4286,11 +2063,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP24M' as TEXT) as "champs",
       cast(  
@@ -4298,131 +2074,72 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP24M_0'  , 
+            'menages_avec_0_personne_24_ans_et_moins'  , 
         
-            'INP24M_1'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_10'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_11'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_12'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_13'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_14'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_15'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_16'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_17'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_18'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_19'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_2'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_20'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_21'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_25'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_3'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_4'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_5'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_6'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_7'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_8'  , 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins'  , 
         
-            'INP24M_9' 
+            'menages_avec_1_et_plus_personnes_24_ans_et_moins' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP24M_0' then 'menages_avec_0_personne_24_ans_et_moins'
-            
-                when 'INP24M_1' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_10' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_11' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_12' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_13' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_14' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_15' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_16' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_17' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_18' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_19' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_2' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_20' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_21' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_25' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_3' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_4' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_5' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_6' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_7' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_8' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-                when 'INP24M_9' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -4489,8 +2206,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_24_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_24_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -4504,8 +2221,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -4518,7 +2235,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -4532,7 +2249,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -4584,210 +2300,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -4810,11 +2322,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP60M' as TEXT) as "champs",
       cast(  
@@ -4822,99 +2333,56 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP60M_0'  , 
+            'menages_avec_0_personne_60_ans_et_plus'  , 
         
-            'INP60M_1'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_10'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_11'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_12'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_17'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_19'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_2'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_3'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_4'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_5'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_55'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_6'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_7'  , 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus'  , 
         
-            'INP60M_8' 
+            'menages_avec_1_et_plus_personnes_60_ans_et_plus' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP60M_0' then 'menages_avec_0_personne_60_ans_et_plus'
-            
-                when 'INP60M_1' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_10' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_11' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_12' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_17' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_19' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_2' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_3' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_4' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_5' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_55' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_6' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_7' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-                when 'INP60M_8' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -4965,8 +2433,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_60_ans_et_plus'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_60_ans_et_plus'
+        then poids_du_logement
       else 0
       end
     )
@@ -4980,8 +2448,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+        then poids_du_logement
       else 0
       end
     )
@@ -4994,7 +2462,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -5008,7 +2476,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -5064,210 +2531,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -5286,11 +2549,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP19M' as TEXT) as "champs",
       cast(  
@@ -5298,147 +2560,80 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP19M_0'  , 
+            'menages_avec_0_personne_19_ans_et_moins'  , 
         
-            'INP19M_1'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_10'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_11'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_12'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_13'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_14'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_15'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_16'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_17'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_18'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_19'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_2'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_20'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_21'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_22'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_23'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_25'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_3'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_4'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_41'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_5'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_55'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_6'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_7'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_8'  , 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins'  , 
         
-            'INP19M_9' 
+            'menages_avec_1_et_plus_personnes_19_ans_et_moins' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP19M_0' then 'menages_avec_0_personne_19_ans_et_moins'
-            
-                when 'INP19M_1' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_10' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_11' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_12' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_13' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_14' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_15' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_16' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_17' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_18' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_19' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_2' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_20' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_21' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_22' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_23' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_25' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_3' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_4' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_41' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_5' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_55' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_6' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_7' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_8' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-                when 'INP19M_9' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -5513,8 +2708,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_19_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_19_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -5528,8 +2723,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -5542,7 +2737,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -5556,7 +2751,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -5616,210 +2810,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -5834,11 +2824,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP75M' as TEXT) as "champs",
       cast(  
@@ -5846,91 +2835,52 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP75M_0'  , 
+            'menages_avec_0_personne_75_ans_et_plus'  , 
         
-            'INP75M_1'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_11'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_18'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_2'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_3'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_4'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_48'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_5'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_6'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_7'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_8'  , 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus'  , 
         
-            'INP75M_9' 
+            'menages_avec_1_et_plus_personnes_75_ans_et_plus' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP75M_0' then 'menages_avec_0_personne_75_ans_et_plus'
-            
-                when 'INP75M_1' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_11' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_18' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_2' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_3' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_4' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_48' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_5' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_6' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_7' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_8' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-                when 'INP75M_9' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -5977,8 +2927,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_75_ans_et_plus'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_75_ans_et_plus'
+        then poids_du_logement
       else 0
       end
     )
@@ -5992,8 +2942,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+        then poids_du_logement
       else 0
       end
     )
@@ -6006,7 +2956,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -6020,7 +2970,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -6084,210 +3033,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -6298,11 +3043,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP17M' as TEXT) as "champs",
       cast(  
@@ -6310,115 +3054,64 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP17M_0'  , 
+            'menages_avec_0_personne_17_ans_et_moins'  , 
         
-            'INP17M_1'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_10'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_11'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_12'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_13'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_14'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_15'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_16'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_17'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_2'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_24'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_3'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_4'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_5'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_6'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_7'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_8'  , 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins'  , 
         
-            'INP17M_9' 
+            'menages_avec_1_et_plus_personnes_17_ans_et_moins' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP17M_0' then 'menages_avec_0_personne_17_ans_et_moins'
-            
-                when 'INP17M_1' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_10' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_11' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_12' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_13' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_14' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_15' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_16' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_17' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_2' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_24' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_3' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_4' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_5' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_6' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_7' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_8' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-                when 'INP17M_9' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -6477,8 +3170,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_17_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_17_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -6492,8 +3185,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -6506,7 +3199,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -6520,7 +3213,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -6588,221 +3280,16 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('STAT_CONJM' as TEXT) as "champs",
       cast(  
@@ -6810,63 +3297,38 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'STAT_CONJM_1'  , 
+            'menages_pr_mariee'  , 
         
-            'STAT_CONJM_2'  , 
+            'menages_pr_pacsee'  , 
         
-            'STAT_CONJM_3'  , 
+            'menages_pr_concubinage_union_libre'  , 
         
-            'STAT_CONJM_4'  , 
+            'menages_pr_veuve'  , 
         
-            'STAT_CONJM_5'  , 
+            'menages_pr_divorcee'  , 
         
-            'STAT_CONJM_6' 
+            'menages_pr_celibataire' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'STAT_CONJM_1' then 'menages_pr_mariee'
-            
-                when 'STAT_CONJM_2' then 'menages_pr_pacsee'
-            
-                when 'STAT_CONJM_3' then 'menages_pr_concubinage_union_libre'
-            
-                when 'STAT_CONJM_4' then 'menages_pr_veuve'
-            
-                when 'STAT_CONJM_5' then 'menages_pr_divorcee'
-            
-                when 'STAT_CONJM_6' then 'menages_pr_celibataire'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -6907,8 +3369,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_mariee'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_mariee'
+        then poids_du_logement
       else 0
       end
     )
@@ -6922,8 +3384,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_pacsee'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_pacsee'
+        then poids_du_logement
       else 0
       end
     )
@@ -6937,8 +3399,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_concubinage_union_libre'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_concubinage_union_libre'
+        then poids_du_logement
       else 0
       end
     )
@@ -6952,8 +3414,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_veuve'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_veuve'
+        then poids_du_logement
       else 0
       end
     )
@@ -6967,8 +3429,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_divorcee'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_divorcee'
+        then poids_du_logement
       else 0
       end
     )
@@ -6982,8 +3444,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_celibataire'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_celibataire'
+        then poids_du_logement
       else 0
       end
     )
@@ -6996,7 +3458,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -7010,7 +3472,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -7082,217 +3543,12 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INP5M' as TEXT) as "champs",
       cast(  
@@ -7300,83 +3556,48 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."demographie_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INP5M_0'  , 
+            'menages_avec_0_personne_5_ans_et_moins'  , 
         
-            'INP5M_1'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_10'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_2'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_3'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_4'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_5'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_6'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_7'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_8'  , 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins'  , 
         
-            'INP5M_9' 
+            'menages_avec_1_et_plus_personnes_5_ans_et_moins' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INP5M_0' then 'menages_avec_0_personne_5_ans_et_moins'
-            
-                when 'INP5M_1' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_10' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_2' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_3' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_4' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_5' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_6' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_7' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_8' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-                when 'INP5M_9' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -7419,8 +3640,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_0_personne_5_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_0_personne_5_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -7434,8 +3655,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+        then poids_du_logement
       else 0
       end
     )
@@ -7448,7 +3669,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -7462,6 +3683,10 @@ select * from pivoted
     
 
   )
+
+select * from aggregated
+
+)
 
 SELECT 
     *  

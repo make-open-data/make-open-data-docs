@@ -17,7 +17,9 @@
 
 
 WITH source_dvf AS (
-    select * from "defaultdb"."sources"."dvf_2023" as dvf_2023
+    
+        select * from "defaultdb"."sources"."dvf_2023_dev"
+    
 ),
 filtrer_dvf AS (
     

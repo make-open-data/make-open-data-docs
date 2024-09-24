@@ -17,20 +17,19 @@
 
 
 
+with aggregated as (
+  
 
 
 
 
 
-
-
-
-with iris as (
+with poids_par_geo as (
     SELECT 
-      "IRIS" as code_iris,
-      CAST( SUM(CAST("IPONDL" AS numeric)) AS INT) AS nombre_de_logements
-    FROM 
-      "defaultdb"."sources"."logement_2020"
+      code_iris,
+      CAST( SUM(CAST(poids_du_logement AS numeric)) AS INT) AS nombre_de_logements
+    FROM
+      "defaultdb"."intermediaires"."mobilite_renomee"
     GROUP BY
       code_iris
   ),
@@ -38,12 +37,11 @@ with iris as (
 
     SELECT * 
 
-    FROM iris
+    FROM poids_par_geo
 
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -59,238 +57,6 @@ with unpivoted as (
 
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -321,11 +87,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('IMMIM' as TEXT) as "champs",
       cast(  
@@ -333,47 +98,30 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."mobilite_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'IMMIM_1'  , 
+            'pr_immigration_immigre'  , 
         
-            'IMMIM_2' 
+            'pr_immigration_non_immigre' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'IMMIM_1' then 'pr_immigration_immigre'
-            
-                when 'IMMIM_2' then 'pr_immigration_non_immigre'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -398,8 +146,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_immigration_immigre'
-        then population_par_champs_valeur
+      when valeur = 'pr_immigration_immigre'
+        then poids_du_logement
       else 0
       end
     )
@@ -413,8 +161,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_immigration_non_immigre'
-        then population_par_champs_valeur
+      when valeur = 'pr_immigration_non_immigre'
+        then poids_du_logement
       else 0
       end
     )
@@ -427,7 +175,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -447,7 +195,6 @@ select * from pivoted
 
 
 
-
 with unpivoted as (
       
 
@@ -461,238 +208,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -719,11 +234,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('ILETUDM' as TEXT) as "champs",
       cast(  
@@ -731,71 +245,42 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."mobilite_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'ILETUDM_1'  , 
+            'pr_etudes_commune_actuelle'  , 
         
-            'ILETUDM_2'  , 
+            'pr_etudes_commune_departement_actuel'  , 
         
-            'ILETUDM_3'  , 
+            'pr_etudes_department_region_actuel'  , 
         
-            'ILETUDM_4'  , 
+            'pr_etudes_hors_region_actuelle_metropole'  , 
         
-            'ILETUDM_5'  , 
+            'pr_etudes_hors_region_actuelle_dom'  , 
         
-            'ILETUDM_6'  , 
+            'pr_etudes_hors_region_actuelle_com'  , 
         
-            'ILETUDM_7'  , 
+            'pr_etudes_etranger'  , 
         
-            'ILETUDM_Z' 
+            'pr_etudes_sans_objet_non_inscrit' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'ILETUDM_1' then 'pr_etudes_commune_actuelle'
-            
-                when 'ILETUDM_2' then 'pr_etudes_commune_departement_actuel'
-            
-                when 'ILETUDM_3' then 'pr_etudes_department_region_actuel'
-            
-                when 'ILETUDM_4' then 'pr_etudes_hors_region_actuelle_metropole'
-            
-                when 'ILETUDM_5' then 'pr_etudes_hors_region_actuelle_dom'
-            
-                when 'ILETUDM_6' then 'pr_etudes_hors_region_actuelle_com'
-            
-                when 'ILETUDM_7' then 'pr_etudes_etranger'
-            
-                when 'ILETUDM_Z' then 'pr_etudes_sans_objet_non_inscrit'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -844,8 +329,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_etudes_commune_actuelle'
-        then population_par_champs_valeur
+      when valeur = 'pr_etudes_commune_actuelle'
+        then poids_du_logement
       else 0
       end
     )
@@ -859,8 +344,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_etudes_commune_departement_actuel'
-        then population_par_champs_valeur
+      when valeur = 'pr_etudes_commune_departement_actuel'
+        then poids_du_logement
       else 0
       end
     )
@@ -874,8 +359,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_etudes_department_region_actuel'
-        then population_par_champs_valeur
+      when valeur = 'pr_etudes_department_region_actuel'
+        then poids_du_logement
       else 0
       end
     )
@@ -889,8 +374,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_etudes_hors_region_actuelle_metropole'
-        then population_par_champs_valeur
+      when valeur = 'pr_etudes_hors_region_actuelle_metropole'
+        then poids_du_logement
       else 0
       end
     )
@@ -904,8 +389,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_etudes_hors_region_actuelle_dom'
-        then population_par_champs_valeur
+      when valeur = 'pr_etudes_hors_region_actuelle_dom'
+        then poids_du_logement
       else 0
       end
     )
@@ -919,8 +404,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_etudes_hors_region_actuelle_com'
-        then population_par_champs_valeur
+      when valeur = 'pr_etudes_hors_region_actuelle_com'
+        then poids_du_logement
       else 0
       end
     )
@@ -934,8 +419,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_etudes_etranger'
-        then population_par_champs_valeur
+      when valeur = 'pr_etudes_etranger'
+        then poids_du_logement
       else 0
       end
     )
@@ -949,8 +434,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_etudes_sans_objet_non_inscrit'
-        then population_par_champs_valeur
+      when valeur = 'pr_etudes_sans_objet_non_inscrit'
+        then poids_du_logement
       else 0
       end
     )
@@ -963,7 +448,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -977,7 +462,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -1001,238 +485,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -1255,11 +507,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('VOIT' as TEXT) as "champs",
       cast(  
@@ -1267,55 +518,34 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."mobilite_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'VOIT_0'  , 
+            'menages_0_voiture'  , 
         
-            'VOIT_1'  , 
+            'menages_1_voiture'  , 
         
-            'VOIT_2'  , 
+            'menages_2_voitures'  , 
         
-            'VOIT_3' 
+            'menages_3_et_plus_voitures' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'VOIT_0' then 'menages_0_voiture'
-            
-                when 'VOIT_1' then 'menages_1_voiture'
-            
-                when 'VOIT_2' then 'menages_2_voitures'
-            
-                when 'VOIT_3' then 'menages_3_et_plus_voitures'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -1348,8 +578,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_0_voiture'
-        then population_par_champs_valeur
+      when valeur = 'menages_0_voiture'
+        then poids_du_logement
       else 0
       end
     )
@@ -1363,8 +593,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_1_voiture'
-        then population_par_champs_valeur
+      when valeur = 'menages_1_voiture'
+        then poids_du_logement
       else 0
       end
     )
@@ -1378,8 +608,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_2_voitures'
-        then population_par_champs_valeur
+      when valeur = 'menages_2_voitures'
+        then poids_du_logement
       else 0
       end
     )
@@ -1393,8 +623,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_3_et_plus_voitures'
-        then population_par_champs_valeur
+      when valeur = 'menages_3_et_plus_voitures'
+        then poids_du_logement
       else 0
       end
     )
@@ -1407,7 +637,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -1421,7 +651,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -1449,238 +678,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -1699,11 +696,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('ILTM' as TEXT) as "champs",
       cast(  
@@ -1711,71 +707,42 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."mobilite_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'ILTM_1'  , 
+            'pr_travail_commune_actuelle'  , 
         
-            'ILTM_2'  , 
+            'pr_travail_commune_departement_actuel'  , 
         
-            'ILTM_3'  , 
+            'pr_travail_department_region_actuel'  , 
         
-            'ILTM_4'  , 
+            'pr_travail_hors_region_actuelle_metropole'  , 
         
-            'ILTM_5'  , 
+            'pr_travail_hors_region_actuelle_dom'  , 
         
-            'ILTM_6'  , 
+            'pr_travail_hors_region_actuelle_com'  , 
         
-            'ILTM_7'  , 
+            'pr_travail_etranger'  , 
         
-            'ILTM_Z' 
+            'pr_travail_sans_objet_sans_emploi' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'ILTM_1' then 'pr_travail_commune_actuelle'
-            
-                when 'ILTM_2' then 'pr_travail_commune_departement_actuel'
-            
-                when 'ILTM_3' then 'pr_travail_department_region_actuel'
-            
-                when 'ILTM_4' then 'pr_travail_hors_region_actuelle_metropole'
-            
-                when 'ILTM_5' then 'pr_travail_hors_region_actuelle_dom'
-            
-                when 'ILTM_6' then 'pr_travail_hors_region_actuelle_com'
-            
-                when 'ILTM_7' then 'pr_travail_etranger'
-            
-                when 'ILTM_Z' then 'pr_travail_sans_objet_sans_emploi'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -1824,8 +791,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_travail_commune_actuelle'
-        then population_par_champs_valeur
+      when valeur = 'pr_travail_commune_actuelle'
+        then poids_du_logement
       else 0
       end
     )
@@ -1839,8 +806,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_travail_commune_departement_actuel'
-        then population_par_champs_valeur
+      when valeur = 'pr_travail_commune_departement_actuel'
+        then poids_du_logement
       else 0
       end
     )
@@ -1854,8 +821,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_travail_department_region_actuel'
-        then population_par_champs_valeur
+      when valeur = 'pr_travail_department_region_actuel'
+        then poids_du_logement
       else 0
       end
     )
@@ -1869,8 +836,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_travail_hors_region_actuelle_metropole'
-        then population_par_champs_valeur
+      when valeur = 'pr_travail_hors_region_actuelle_metropole'
+        then poids_du_logement
       else 0
       end
     )
@@ -1884,8 +851,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_travail_hors_region_actuelle_dom'
-        then population_par_champs_valeur
+      when valeur = 'pr_travail_hors_region_actuelle_dom'
+        then poids_du_logement
       else 0
       end
     )
@@ -1899,8 +866,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_travail_hors_region_actuelle_com'
-        then population_par_champs_valeur
+      when valeur = 'pr_travail_hors_region_actuelle_com'
+        then poids_du_logement
       else 0
       end
     )
@@ -1914,8 +881,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_travail_etranger'
-        then population_par_champs_valeur
+      when valeur = 'pr_travail_etranger'
+        then poids_du_logement
       else 0
       end
     )
@@ -1929,8 +896,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_travail_sans_objet_sans_emploi'
-        then population_par_champs_valeur
+      when valeur = 'pr_travail_sans_objet_sans_emploi'
+        then poids_du_logement
       else 0
       end
     )
@@ -1943,7 +910,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -1957,7 +924,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -1989,238 +955,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -2235,11 +969,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('TRANSM' as TEXT) as "champs",
       cast(  
@@ -2247,59 +980,36 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."mobilite_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'TRANSM_2'  , 
+            'menages_pr_transport_travail_pieds'  , 
         
-            'TRANSM_3'  , 
+            'menages_pr_transport_travail_velo'  , 
         
-            'TRANSM_4'  , 
+            'menages_pr_transport_travail_deux_roues'  , 
         
-            'TRANSM_5'  , 
+            'menages_pr_transport_travail_voiture'  , 
         
-            'TRANSM_6' 
+            'menages_pr_transport_travail_transport_commune' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'TRANSM_2' then 'menages_pr_transport_travail_pieds'
-            
-                when 'TRANSM_3' then 'menages_pr_transport_travail_velo'
-            
-                when 'TRANSM_4' then 'menages_pr_transport_travail_deux_roues'
-            
-                when 'TRANSM_5' then 'menages_pr_transport_travail_voiture'
-            
-                when 'TRANSM_6' then 'menages_pr_transport_travail_transport_commune'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -2336,8 +1046,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_transport_travail_pieds'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_transport_travail_pieds'
+        then poids_du_logement
       else 0
       end
     )
@@ -2351,8 +1061,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_transport_travail_velo'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_transport_travail_velo'
+        then poids_du_logement
       else 0
       end
     )
@@ -2366,8 +1076,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_transport_travail_deux_roues'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_transport_travail_deux_roues'
+        then poids_du_logement
       else 0
       end
     )
@@ -2381,8 +1091,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_transport_travail_voiture'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_transport_travail_voiture'
+        then poids_du_logement
       else 0
       end
     )
@@ -2396,8 +1106,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_pr_transport_travail_transport_commune'
-        then population_par_champs_valeur
+      when valeur = 'menages_pr_transport_travail_transport_commune'
+        then poids_du_logement
       else 0
       end
     )
@@ -2410,7 +1120,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -2424,7 +1134,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -2460,238 +1169,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
     
       
@@ -2702,11 +1179,10 @@ with unpivoted as (
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('DEROU' as TEXT) as "champs",
       cast(  
@@ -2714,55 +1190,34 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."mobilite_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'DEROU_0'  , 
+            'dom__aucun_deux_roues'  , 
         
-            'DEROU_1'  , 
+            'dom__un_deux_roues'  , 
         
-            'DEROU_2'  , 
+            'dom__deux_deux_roues'  , 
         
-            'DEROU_3' 
+            'dom__trois_ou_plus_deux_roues' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'DEROU_0' then 'dom__aucun_deux_roues'
-            
-                when 'DEROU_1' then 'dom__un_deux_roues'
-            
-                when 'DEROU_2' then 'dom__deux_deux_roues'
-            
-                when 'DEROU_3' then 'dom__trois_ou_plus_deux_roues'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -2795,8 +1250,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'dom__aucun_deux_roues'
-        then population_par_champs_valeur
+      when valeur = 'dom__aucun_deux_roues'
+        then poids_du_logement
       else 0
       end
     )
@@ -2810,8 +1265,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'dom__un_deux_roues'
-        then population_par_champs_valeur
+      when valeur = 'dom__un_deux_roues'
+        then poids_du_logement
       else 0
       end
     )
@@ -2825,8 +1280,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'dom__deux_deux_roues'
-        then population_par_champs_valeur
+      when valeur = 'dom__deux_deux_roues'
+        then poids_du_logement
       else 0
       end
     )
@@ -2840,8 +1295,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'dom__trois_ou_plus_deux_roues'
-        then population_par_champs_valeur
+      when valeur = 'dom__trois_ou_plus_deux_roues'
+        then poids_du_logement
       else 0
       end
     )
@@ -2854,7 +1309,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -2868,7 +1323,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -2908,249 +1362,16 @@ with unpivoted as (
     
   
     
-      
-    
   
     
       
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
     
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('IRANM' as TEXT) as "champs",
       cast(  
@@ -3158,75 +1379,44 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."mobilite_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'IRANM_1'  , 
+            'menages_avec_pr_annee_avant_meme_logement'  , 
         
-            'IRANM_2'  , 
+            'menages_avec_pr_annee_avant_meme_commune'  , 
         
-            'IRANM_3'  , 
+            'menages_avec_pr_annee_avant_meme_departement'  , 
         
-            'IRANM_4'  , 
+            'menages_avec_pr_annee_avant_meme_region'  , 
         
-            'IRANM_5'  , 
+            'menages_avec_pr_annee_avant_autre_region_metro'  , 
         
-            'IRANM_6'  , 
+            'menages_avec_pr_annee_avant_autre_region_dom'  , 
         
-            'IRANM_7'  , 
+            'menages_avec_pr_annee_avant_autre_region_com'  , 
         
-            'IRANM_8'  , 
+            'menages_avec_pr_annee_avant_union_europeenne'  , 
         
-            'IRANM_9' 
+            'menages_avec_pr_annee_avant_etranger' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'IRANM_1' then 'menages_avec_pr_annee_avant_meme_logement'
-            
-                when 'IRANM_2' then 'menages_avec_pr_annee_avant_meme_commune'
-            
-                when 'IRANM_3' then 'menages_avec_pr_annee_avant_meme_departement'
-            
-                when 'IRANM_4' then 'menages_avec_pr_annee_avant_meme_region'
-            
-                when 'IRANM_5' then 'menages_avec_pr_annee_avant_autre_region_metro'
-            
-                when 'IRANM_6' then 'menages_avec_pr_annee_avant_autre_region_dom'
-            
-                when 'IRANM_7' then 'menages_avec_pr_annee_avant_autre_region_com'
-            
-                when 'IRANM_8' then 'menages_avec_pr_annee_avant_union_europeenne'
-            
-                when 'IRANM_9' then 'menages_avec_pr_annee_avant_etranger'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -3279,8 +1469,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_meme_logement'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_meme_logement'
+        then poids_du_logement
       else 0
       end
     )
@@ -3294,8 +1484,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_meme_commune'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_meme_commune'
+        then poids_du_logement
       else 0
       end
     )
@@ -3309,8 +1499,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_meme_departement'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_meme_departement'
+        then poids_du_logement
       else 0
       end
     )
@@ -3324,8 +1514,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_meme_region'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_meme_region'
+        then poids_du_logement
       else 0
       end
     )
@@ -3339,8 +1529,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_autre_region_metro'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_autre_region_metro'
+        then poids_du_logement
       else 0
       end
     )
@@ -3354,8 +1544,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_autre_region_dom'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_autre_region_dom'
+        then poids_du_logement
       else 0
       end
     )
@@ -3369,8 +1559,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_autre_region_com'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_autre_region_com'
+        then poids_du_logement
       else 0
       end
     )
@@ -3384,8 +1574,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_union_europeenne'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_union_europeenne'
+        then poids_du_logement
       else 0
       end
     )
@@ -3399,8 +1589,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'menages_avec_pr_annee_avant_etranger'
-        then population_par_champs_valeur
+      when valeur = 'menages_avec_pr_annee_avant_etranger'
+        then poids_du_logement
       else 0
       end
     )
@@ -3413,7 +1603,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -3427,7 +1617,6 @@ select * from pivoted
     
 
       LEFT JOIN ( 
-
 
 
 
@@ -3471,245 +1660,12 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
   
 
-
-    select
-        "COMMUNE",
-        "IPONDL",
-        "IRIS",
+  select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
 
       cast('INAIM' as TEXT) as "champs",
       cast(  
@@ -3717,63 +1673,38 @@ with unpivoted as (
              
            as varchar) as "valeur"
 
-    from "defaultdb"."sources"."logement_2020"
+    from "defaultdb"."intermediaires"."mobilite_renomee"
 
     
+
+
 
 ), 
 unpivot_filtree as (
         
 
     SELECT
-        "IRIS" as  code_iris, 
-        CAST("IPONDL" as NUMERIC) as poids_du_logement,
-        champs || '_' || valeur AS champs_valeur
+        code_iris, 
+        poids_du_logement,
+        valeur
     FROM
         unpivoted
     WHERE
-        champs || '_' || valeur in (
+        valeur in (
         
-            'INAIM_1'  , 
+            'pr_naissance_department_actuelle'  , 
         
-            'INAIM_2'  , 
+            'pr_naissance_department_region_actuelle'  , 
         
-            'INAIM_3'  , 
+            'pr_naissance_hors_region_actuelle_metropole'  , 
         
-            'INAIM_4'  , 
+            'pr_naissance_hors_region_actuelle_dom'  , 
         
-            'INAIM_5'  , 
+            'pr_naissance_hors_region_actuelle_com'  , 
         
-            'INAIM_6' 
+            'pr_naissance_etranger' 
         )
 
-
-),
-renommee as (
-        
-    SELECT
-        code_iris,
-        CASE champs_valeur
-            
-                when 'INAIM_1' then 'pr_naissance_department_actuelle'
-            
-                when 'INAIM_2' then 'pr_naissance_department_region_actuelle'
-            
-                when 'INAIM_3' then 'pr_naissance_hors_region_actuelle_metropole'
-            
-                when 'INAIM_4' then 'pr_naissance_hors_region_actuelle_dom'
-            
-                when 'INAIM_5' then 'pr_naissance_hors_region_actuelle_com'
-            
-                when 'INAIM_6' then 'pr_naissance_etranger'
-            
-        END AS champs_valeur_renomme,
-        CAST(SUM(CAST(poids_du_logement as NUMERIC)) AS INT) as population_par_champs_valeur
-    FROM
-        unpivot_filtree
-    GROUP BY
-        code_iris,
-        champs_valeur_renomme
 
 ),
 pivoted as (
@@ -3814,8 +1745,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_naissance_department_actuelle'
-        then population_par_champs_valeur
+      when valeur = 'pr_naissance_department_actuelle'
+        then poids_du_logement
       else 0
       end
     )
@@ -3829,8 +1760,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_naissance_department_region_actuelle'
-        then population_par_champs_valeur
+      when valeur = 'pr_naissance_department_region_actuelle'
+        then poids_du_logement
       else 0
       end
     )
@@ -3844,8 +1775,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_naissance_hors_region_actuelle_metropole'
-        then population_par_champs_valeur
+      when valeur = 'pr_naissance_hors_region_actuelle_metropole'
+        then poids_du_logement
       else 0
       end
     )
@@ -3859,8 +1790,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_naissance_hors_region_actuelle_dom'
-        then population_par_champs_valeur
+      when valeur = 'pr_naissance_hors_region_actuelle_dom'
+        then poids_du_logement
       else 0
       end
     )
@@ -3874,8 +1805,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_naissance_hors_region_actuelle_com'
-        then population_par_champs_valeur
+      when valeur = 'pr_naissance_hors_region_actuelle_com'
+        then poids_du_logement
       else 0
       end
     )
@@ -3889,8 +1820,8 @@ pivoted as (
     sum(
       
       case
-      when champs_valeur_renomme = 'pr_naissance_etranger'
-        then population_par_champs_valeur
+      when valeur = 'pr_naissance_etranger'
+        then poids_du_logement
       else 0
       end
     )
@@ -3903,7 +1834,7 @@ pivoted as (
   
 
     from 
-        renommee
+        unpivot_filtree
     group by
         code_iris
 
@@ -3917,6 +1848,10 @@ select * from pivoted
     
 
   )
+
+select * from aggregated
+
+)
 
 SELECT 
     *  
