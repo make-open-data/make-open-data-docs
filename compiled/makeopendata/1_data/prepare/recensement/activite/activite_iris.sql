@@ -220,7 +220,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INEEM_par_geo
       USING (code_iris)
 
     
@@ -392,7 +392,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_TPM_par_geo
       USING (code_iris)
 
     
@@ -644,7 +644,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INPOM_par_geo
       USING (code_iris)
 
     
@@ -1005,7 +1005,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_DIPLM_par_geo
       USING (code_iris)
 
     
@@ -1257,7 +1257,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INPAM_par_geo
       USING (code_iris)
 
     
@@ -1576,7 +1576,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_EMPLM_par_geo
       USING (code_iris)
 
     
@@ -1790,7 +1790,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_RECHM_par_geo
       USING (code_iris)
 
     
@@ -2025,7 +2025,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_TACTM_par_geo
       USING (code_iris)
 
     
@@ -2257,7 +2257,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INPSM_par_geo
       USING (code_iris)
 
     

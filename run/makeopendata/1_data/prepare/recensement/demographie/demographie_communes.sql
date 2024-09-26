@@ -267,7 +267,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP15M_par_geo
       USING (code_commune_insee)
 
     
@@ -547,7 +547,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INPER1_par_geo
       USING (code_commune_insee)
 
     
@@ -722,7 +722,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_SEXEM_par_geo
       USING (code_commune_insee)
 
     
@@ -973,7 +973,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INPER2_par_geo
       USING (code_commune_insee)
 
     
@@ -1176,7 +1176,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP3M_par_geo
       USING (code_commune_insee)
 
     
@@ -1403,7 +1403,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP65M_par_geo
       USING (code_commune_insee)
 
     
@@ -1630,7 +1630,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP11M_par_geo
       USING (code_commune_insee)
 
     
@@ -1985,7 +1985,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INPER_par_geo
       USING (code_commune_insee)
 
     
@@ -2244,7 +2244,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP24M_par_geo
       USING (code_commune_insee)
 
     
@@ -2471,7 +2471,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP60M_par_geo
       USING (code_commune_insee)
 
     
@@ -2746,7 +2746,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP19M_par_geo
       USING (code_commune_insee)
 
     
@@ -2965,7 +2965,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP75M_par_geo
       USING (code_commune_insee)
 
     
@@ -3208,7 +3208,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP17M_par_geo
       USING (code_commune_insee)
 
     
@@ -3467,7 +3467,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_STAT_CONJM_par_geo
       USING (code_commune_insee)
 
     
@@ -3678,7 +3678,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INP5M_par_geo
       USING (code_commune_insee)
 
     

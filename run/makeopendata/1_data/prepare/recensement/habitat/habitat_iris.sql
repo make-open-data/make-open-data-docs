@@ -381,7 +381,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_AEMMR_par_geo
       USING (code_iris)
 
     
@@ -1020,7 +1020,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_ACHL_par_geo
       USING (code_iris)
 
     
@@ -1302,7 +1302,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_STOCD_par_geo
       USING (code_iris)
 
     
@@ -1647,7 +1647,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_AGEMEN8_par_geo
       USING (code_iris)
 
     
@@ -1929,7 +1929,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_TYPC_par_geo
       USING (code_iris)
 
     
@@ -2232,7 +2232,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_CMBL_par_geo
       USING (code_iris)
 
     
@@ -2451,7 +2451,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_CLIM_par_geo
       USING (code_iris)
 
     
@@ -2838,7 +2838,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_ANEMR_par_geo
       USING (code_iris)
 
     
@@ -3099,7 +3099,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_EGOUL_par_geo
       USING (code_iris)
 
     
@@ -3318,7 +3318,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_GARL_par_geo
       USING (code_iris)
 
     
@@ -3537,7 +3537,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_CUIS_par_geo
       USING (code_iris)
 
     
@@ -3896,7 +3896,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_NBPI_par_geo
       USING (code_iris)
 
     
@@ -4220,7 +4220,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_SURF_par_geo
       USING (code_iris)
 
     
@@ -4481,7 +4481,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_SANIDOM_par_geo
       USING (code_iris)
 
     
@@ -4742,7 +4742,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_BATI_par_geo
       USING (code_iris)
 
     
@@ -4961,7 +4961,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_CHAU_par_geo
       USING (code_iris)
 
     
@@ -5180,7 +5180,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_CHOS_par_geo
       USING (code_iris)
 
     
@@ -5399,7 +5399,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_HLML_par_geo
       USING (code_iris)
 
     
@@ -5702,7 +5702,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_TYPL_par_geo
       USING (code_iris)
 
     
@@ -5921,7 +5921,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_WC_par_geo
       USING (code_iris)
 
     
@@ -6161,7 +6161,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_SANI_par_geo
       USING (code_iris)
 
     
@@ -6380,7 +6380,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_BAIN_par_geo
       USING (code_iris)
 
     
@@ -6599,7 +6599,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_ASCEN_par_geo
       USING (code_iris)
 
     
@@ -6860,7 +6860,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_CATL_par_geo
       USING (code_iris)
 
     
@@ -7079,7 +7079,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_ELEC_par_geo
       USING (code_iris)
 
     
@@ -7319,7 +7319,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_EAU_par_geo
       USING (code_iris)
 
     

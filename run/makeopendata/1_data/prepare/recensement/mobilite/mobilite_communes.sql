@@ -183,7 +183,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_IMMIM_par_geo
       USING (code_commune_insee)
 
     
@@ -456,7 +456,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_ILETUDM_par_geo
       USING (code_commune_insee)
 
     
@@ -645,7 +645,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_VOIT_par_geo
       USING (code_commune_insee)
 
     
@@ -918,7 +918,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_ILTM_par_geo
       USING (code_commune_insee)
 
     
@@ -1128,7 +1128,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_TRANSM_par_geo
       USING (code_commune_insee)
 
     
@@ -1317,7 +1317,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_DEROU_par_geo
       USING (code_commune_insee)
 
     
@@ -1611,7 +1611,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_IRANM_par_geo
       USING (code_commune_insee)
 
     
@@ -1842,7 +1842,7 @@ pivoted as (
 )
 
 select * from pivoted
-  )
+  ) as alias_INAIM_par_geo
       USING (code_commune_insee)
 
     
