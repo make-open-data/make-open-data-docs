@@ -14,19 +14,34 @@ with aggregated as (
 
 
 with poids_par_geo as (
-    SELECT 
+    SELECT
       code_iris,
-      CAST( SUM(CAST(poids_du_logement AS numeric)) AS INT) AS nombre_de_logements
+      SUM(poids_du_logement) FILTER (WHERE "CATL" = '1') AS nombre_de_menage_base_ou_logements_occupee,
+      SUM(poids_du_logement) FILTER (WHERE "CATL" = '2') AS nombre_de_logements_occasionnels,
+      SUM(poids_du_logement) FILTER (WHERE "CATL" = '3') AS nombre_de_logements_residences_secondaires,
+      SUM(poids_du_logement) FILTER (WHERE "CATL" = '4') AS nombre_de_logements_vacants,
+      SUM(poids_du_logement) AS nombre_de_logements_total_tous_status_occupation
     FROM
       "defaultdb"."intermediaires"."activite_renomee"
     GROUP BY
       code_iris
+  ), 
+  poids_par_geo_clean as (
+    SELECT  
+      code_iris,
+      CAST(COALESCE(nombre_de_menage_base_ou_logements_occupee, 0) AS INT) as nombre_de_menage_base_ou_logements_occupee,
+      CAST(COALESCE(nombre_de_logements_occasionnels, 0) AS INT) as nombre_de_logements_occasionnels,
+      CAST(COALESCE(nombre_de_logements_residences_secondaires, 0) AS INT) as nombre_de_logements_residences_secondaires,
+      CAST(COALESCE(nombre_de_logements_vacants, 0) AS INT) as nombre_de_logements_vacants
+    FROM
+      poids_par_geo
+
   ),
   aggregated as (
 
     SELECT * 
 
-    FROM poids_par_geo
+    FROM poids_par_geo_clean
 
     
 
@@ -81,6 +96,20 @@ with unpivoted as (
   
 
   select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
         "poids_du_logement",
         "code_commune_insee",
         "code_iris",
@@ -280,6 +309,20 @@ with unpivoted as (
         "code_commune_insee",
         "code_iris",
 
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
       cast('TPM' as TEXT) as "champs",
       cast(  
            "TPM"
@@ -448,6 +491,20 @@ with unpivoted as (
   
 
   select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
         "poids_du_logement",
         "code_commune_insee",
         "code_iris",
@@ -700,6 +757,20 @@ with unpivoted as (
   
 
   select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
         "poids_du_logement",
         "code_commune_insee",
         "code_iris",
@@ -1065,6 +1136,20 @@ with unpivoted as (
         "code_commune_insee",
         "code_iris",
 
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
       cast('INPAM' as TEXT) as "champs",
       cast(  
            "INPAM"
@@ -1313,6 +1398,20 @@ with unpivoted as (
   
 
   select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
         "poids_du_logement",
         "code_commune_insee",
         "code_iris",
@@ -1636,6 +1735,20 @@ with unpivoted as (
         "code_commune_insee",
         "code_iris",
 
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
       cast('RECHM' as TEXT) as "champs",
       cast(  
            "RECHM"
@@ -1846,6 +1959,20 @@ with unpivoted as (
   
 
   select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
         "poids_du_logement",
         "code_commune_insee",
         "code_iris",
@@ -2081,6 +2208,20 @@ with unpivoted as (
   
 
   select
+        "poids_du_logement",
+        "code_commune_insee",
+        "code_iris",
+
+      cast('CATL' as TEXT) as "champs",
+      cast(  
+           "CATL"
+             
+           as varchar) as "valeur"
+
+    from "defaultdb"."intermediaires"."activite_renomee"
+
+    union all
+    select
         "poids_du_logement",
         "code_commune_insee",
         "code_iris",

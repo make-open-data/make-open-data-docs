@@ -22,562 +22,565 @@ logement_renomee AS (
 
 
     select 
-
-        "COMMUNE" as code_commune_insee,
+        CASE
+            WHEN "ARM" != 'ZZZZZ' THEN "ARM"
+            ELSE "COMMUNE" 
+        END AS code_commune_insee,
+        "CATL",
         CASE 
 		    WHEN "IRIS" = 'ZZZZZZZZZ' THEN CONCAT("COMMUNE", '0000')
 		    ELSE "IRIS"
 	    END as code_iris,
         
-            CASE "INP11M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_11_ans_et_moins'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '10' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '11' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '12' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '13' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '14' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '009' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '010' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '011' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '012' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '013' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
-                    when '9' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
+                    when LPAD(CAST("INP11M" AS TEXT), 3, '0') = '014' then 'menages_avec_1_et_plus_personnes_11_ans_et_moins'
                 
             END AS "INP11M",
         
-            CASE "INP15M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_15_ans_et_moins'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '10' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '11' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '12' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '13' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '14' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '15' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '009' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '010' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '011' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '012' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '013' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '014' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
-                    when '9' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
+                    when LPAD(CAST("INP15M" AS TEXT), 3, '0') = '015' then 'menages_avec_1_et_plus_personnes_15_ans_et_moins'
                 
             END AS "INP15M",
         
-            CASE "INP17M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_17_ans_et_moins'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '10' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '11' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '12' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '13' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '14' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '15' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '16' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '17' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '009' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '010' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '24' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '011' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '012' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '013' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '014' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '015' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '016' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '017' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
-                    when '9' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
+                    when LPAD(CAST("INP17M" AS TEXT), 3, '0') = '024' then 'menages_avec_1_et_plus_personnes_17_ans_et_moins'
                 
             END AS "INP17M",
         
-            CASE "INP19M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_19_ans_et_moins'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '10' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '11' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '12' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '13' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '14' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '15' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '16' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '17' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '009' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '18' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '010' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '19' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '011' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '012' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '20' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '013' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '21' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '014' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '22' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '015' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '23' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '016' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '25' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '017' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '018' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '019' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '41' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '020' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '021' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '55' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '022' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '023' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '025' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '041' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
-                    when '9' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
+                    when LPAD(CAST("INP19M" AS TEXT), 3, '0') = '055' then 'menages_avec_1_et_plus_personnes_19_ans_et_moins'
                 
             END AS "INP19M",
         
-            CASE "INP24M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_24_ans_et_moins'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '10' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '11' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '12' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '13' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '14' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '15' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '16' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '17' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '009' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '18' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '010' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '19' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '011' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '012' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '20' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '013' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '21' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '014' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '25' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '015' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '016' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '017' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '018' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '019' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '020' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '021' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
-                    when '9' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
+                    when LPAD(CAST("INP24M" AS TEXT), 3, '0') = '025' then 'menages_avec_1_et_plus_personnes_24_ans_et_moins'
                 
             END AS "INP24M",
         
-            CASE "INP3M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_3_ans_et_moins'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
+                    when LPAD(CAST("INP3M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_3_ans_et_moins'
                 
             END AS "INP3M",
         
-            CASE "INP5M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_5_ans_et_moins'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '10' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '009' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
-                    when '9' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
+                    when LPAD(CAST("INP5M" AS TEXT), 3, '0') = '010' then 'menages_avec_1_et_plus_personnes_5_ans_et_moins'
                 
             END AS "INP5M",
         
-            CASE "INP60M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_60_ans_et_plus'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '10' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '11' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '12' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '17' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '19' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '010' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '011' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '55' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '012' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '017' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '019' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
+                    when LPAD(CAST("INP60M" AS TEXT), 3, '0') = '055' then 'menages_avec_1_et_plus_personnes_60_ans_et_plus'
                 
             END AS "INP60M",
         
-            CASE "INP65M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_65_ans_et_plus'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '11' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '12' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '16' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '18' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '009' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '55' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '011' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '012' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '016' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '018' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
-                    when '9' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
+                    when LPAD(CAST("INP65M" AS TEXT), 3, '0') = '055' then 'menages_avec_1_et_plus_personnes_65_ans_et_plus'
                 
             END AS "INP65M",
         
-            CASE "INP75M"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_75_ans_et_plus'
                 
-                    when '1' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '001' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '11' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '002' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '18' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '003' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '2' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '004' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '3' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '005' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '4' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '006' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '48' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '007' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '5' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '008' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '6' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '009' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '7' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '011' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '8' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '018' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
-                    when '9' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
+                    when LPAD(CAST("INP75M" AS TEXT), 3, '0') = '048' then 'menages_avec_1_et_plus_personnes_75_ans_et_plus'
                 
             END AS "INP75M",
         
-            CASE "INPER"
+            CASE
                 
-                    when '1' then 'menages_avec_1_personne'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '001' then 'menages_avec_1_personne'
                 
-                    when '10' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '002' then 'menages_avec_2_personnes'
                 
-                    when '11' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '003' then 'menages_avec_3_personnes'
                 
-                    when '12' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '004' then 'menages_avec_4_personnes'
                 
-                    when '13' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '005' then 'menages_avec_5_personnes'
                 
-                    when '14' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '006' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '15' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '007' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '16' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '008' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '17' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '009' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '18' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '010' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '19' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '011' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '2' then 'menages_avec_2_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '012' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '20' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '013' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '21' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '014' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '22' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '015' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '23' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '016' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '24' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '017' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '25' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '018' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '26' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '019' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '28' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '020' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '3' then 'menages_avec_3_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '021' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '34' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '022' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '4' then 'menages_avec_4_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '023' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '41' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '024' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '5' then 'menages_avec_5_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '025' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '55' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '026' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '6' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '028' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '7' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '034' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '8' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '041' then 'menages_avec_6_et_plus_personnes'
                 
-                    when '9' then 'menages_avec_6_et_plus_personnes'
+                    when LPAD(CAST("INPER" AS TEXT), 3, '0') = '055' then 'menages_avec_6_et_plus_personnes'
                 
             END AS "INPER",
         
-            CASE "INPER1"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_masculin'
                 
-                    when '1' then 'menages_avec_1_personne_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '001' then 'menages_avec_1_personne_masculin'
                 
-                    when '10' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '002' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '11' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '003' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '12' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '004' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '13' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '005' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '14' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '006' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '15' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '007' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '16' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '008' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '17' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '009' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '18' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '010' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '19' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '011' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '2' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '012' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '20' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '013' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '22' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '014' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '26' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '015' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '3' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '016' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '38' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '017' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '4' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '018' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '5' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '019' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '6' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '020' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '7' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '022' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '8' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '026' then 'menages_avec_2_et_plus_personnes_masculin'
                 
-                    when '9' then 'menages_avec_2_et_plus_personnes_masculin'
+                    when LPAD(CAST("INPER1" AS TEXT), 3, '0') = '038' then 'menages_avec_2_et_plus_personnes_masculin'
                 
             END AS "INPER1",
         
-            CASE "INPER2"
+            CASE
                 
-                    when '0' then 'menages_avec_0_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '000' then 'menages_avec_0_personne_feminin'
                 
-                    when '1' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '001' then 'menages_avec_1_personne_feminin'
                 
-                    when '10' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '002' then 'menages_avec_1_personne_feminin'
                 
-                    when '11' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '003' then 'menages_avec_1_personne_feminin'
                 
-                    when '12' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '004' then 'menages_avec_1_personne_feminin'
                 
-                    when '13' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '005' then 'menages_avec_1_personne_feminin'
                 
-                    when '14' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '006' then 'menages_avec_1_personne_feminin'
                 
-                    when '15' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '007' then 'menages_avec_1_personne_feminin'
                 
-                    when '16' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '008' then 'menages_avec_1_personne_feminin'
                 
-                    when '17' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '009' then 'menages_avec_1_personne_feminin'
                 
-                    when '19' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '010' then 'menages_avec_1_personne_feminin'
                 
-                    when '2' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '011' then 'menages_avec_1_personne_feminin'
                 
-                    when '20' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '012' then 'menages_avec_1_personne_feminin'
                 
-                    when '3' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '013' then 'menages_avec_1_personne_feminin'
                 
-                    when '39' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '014' then 'menages_avec_1_personne_feminin'
                 
-                    when '4' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '015' then 'menages_avec_1_personne_feminin'
                 
-                    when '5' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '016' then 'menages_avec_1_personne_feminin'
                 
-                    when '6' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '017' then 'menages_avec_1_personne_feminin'
                 
-                    when '7' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '019' then 'menages_avec_1_personne_feminin'
                 
-                    when '8' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '020' then 'menages_avec_1_personne_feminin'
                 
-                    when '9' then 'menages_avec_1_personne_feminin'
+                    when LPAD(CAST("INPER2" AS TEXT), 3, '0') = '039' then 'menages_avec_1_personne_feminin'
                 
             END AS "INPER2",
         
-            CASE "SEXEM"
+            CASE
                 
-                    when '1' then 'menages_pr_homme'
+                    when LPAD(CAST("SEXEM" AS TEXT), 3, '0') = '001' then 'menages_pr_homme'
                 
-                    when '2' then 'menages_pr_femmes'
+                    when LPAD(CAST("SEXEM" AS TEXT), 3, '0') = '002' then 'menages_pr_femmes'
                 
             END AS "SEXEM",
         
-            CASE "STAT_CONJM"
+            CASE
                 
-                    when '1' then 'menages_pr_mariee'
+                    when LPAD(CAST("STAT_CONJM" AS TEXT), 3, '0') = '001' then 'menages_pr_mariee'
                 
-                    when '2' then 'menages_pr_pacsee'
+                    when LPAD(CAST("STAT_CONJM" AS TEXT), 3, '0') = '002' then 'menages_pr_pacsee'
                 
-                    when '3' then 'menages_pr_concubinage_union_libre'
+                    when LPAD(CAST("STAT_CONJM" AS TEXT), 3, '0') = '003' then 'menages_pr_concubinage_union_libre'
                 
-                    when '4' then 'menages_pr_veuve'
+                    when LPAD(CAST("STAT_CONJM" AS TEXT), 3, '0') = '004' then 'menages_pr_veuve'
                 
-                    when '5' then 'menages_pr_divorcee'
+                    when LPAD(CAST("STAT_CONJM" AS TEXT), 3, '0') = '005' then 'menages_pr_divorcee'
                 
-                    when '6' then 'menages_pr_celibataire'
+                    when LPAD(CAST("STAT_CONJM" AS TEXT), 3, '0') = '006' then 'menages_pr_celibataire'
                 
             END AS "STAT_CONJM",
         

@@ -17,136 +17,139 @@ logement_renomee AS (
 
 
     select 
-
-        "COMMUNE" as code_commune_insee,
+        CASE
+            WHEN "ARM" != 'ZZZZZ' THEN "ARM"
+            ELSE "COMMUNE" 
+        END AS code_commune_insee,
+        "CATL",
         CASE 
 		    WHEN "IRIS" = 'ZZZZZZZZZ' THEN CONCAT("COMMUNE", '0000')
 		    ELSE "IRIS"
 	    END as code_iris,
         
-            CASE "INAIM"
+            CASE
                 
-                    when '4' then 'pr_naissance_hors_region_actuelle_dom'
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '002' then 'menages_avec_pr_annee_avant_meme_commune'
                 
-                    when '5' then 'pr_naissance_hors_region_actuelle_com'
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '004' then 'menages_avec_pr_annee_avant_meme_region'
                 
-                    when '2' then 'pr_naissance_department_region_actuelle'
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '001' then 'menages_avec_pr_annee_avant_meme_logement'
                 
-                    when '3' then 'pr_naissance_hors_region_actuelle_metropole'
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '003' then 'menages_avec_pr_annee_avant_meme_departement'
                 
-                    when '1' then 'pr_naissance_department_actuelle'
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '007' then 'menages_avec_pr_annee_avant_autre_region_com'
                 
-                    when '6' then 'pr_naissance_etranger'
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '006' then 'menages_avec_pr_annee_avant_autre_region_dom'
                 
-            END AS "INAIM",
-        
-            CASE "IRANM"
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '009' then 'menages_avec_pr_annee_avant_etranger'
                 
-                    when '8' then 'menages_avec_pr_annee_avant_union_europeenne'
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '005' then 'menages_avec_pr_annee_avant_autre_region_metro'
                 
-                    when '7' then 'menages_avec_pr_annee_avant_autre_region_com'
-                
-                    when '4' then 'menages_avec_pr_annee_avant_meme_region'
-                
-                    when '5' then 'menages_avec_pr_annee_avant_autre_region_metro'
-                
-                    when '6' then 'menages_avec_pr_annee_avant_autre_region_dom'
-                
-                    when '1' then 'menages_avec_pr_annee_avant_meme_logement'
-                
-                    when '9' then 'menages_avec_pr_annee_avant_etranger'
-                
-                    when '2' then 'menages_avec_pr_annee_avant_meme_commune'
-                
-                    when '3' then 'menages_avec_pr_annee_avant_meme_departement'
+                    when LPAD(CAST("IRANM" AS TEXT), 3, '0') = '008' then 'menages_avec_pr_annee_avant_union_europeenne'
                 
             END AS "IRANM",
         
-            CASE "IMMIM"
+            CASE
                 
-                    when '2' then 'pr_immigration_non_immigre'
+                    when LPAD(CAST("INAIM" AS TEXT), 3, '0') = '001' then 'pr_naissance_department_actuelle'
                 
-                    when '1' then 'pr_immigration_immigre'
+                    when LPAD(CAST("INAIM" AS TEXT), 3, '0') = '005' then 'pr_naissance_hors_region_actuelle_com'
                 
-            END AS "IMMIM",
+                    when LPAD(CAST("INAIM" AS TEXT), 3, '0') = '003' then 'pr_naissance_hors_region_actuelle_metropole'
+                
+                    when LPAD(CAST("INAIM" AS TEXT), 3, '0') = '002' then 'pr_naissance_department_region_actuelle'
+                
+                    when LPAD(CAST("INAIM" AS TEXT), 3, '0') = '006' then 'pr_naissance_etranger'
+                
+                    when LPAD(CAST("INAIM" AS TEXT), 3, '0') = '004' then 'pr_naissance_hors_region_actuelle_dom'
+                
+            END AS "INAIM",
         
-            CASE "ILETUDM"
+            CASE
                 
-                    when '3' then 'pr_etudes_department_region_actuel'
+                    when LPAD(CAST("DEROU" AS TEXT), 3, '0') = '003' then 'dom__trois_ou_plus_deux_roues'
                 
-                    when '4' then 'pr_etudes_hors_region_actuelle_metropole'
+                    when LPAD(CAST("DEROU" AS TEXT), 3, '0') = '000' then 'dom__aucun_deux_roues'
                 
-                    when '2' then 'pr_etudes_commune_departement_actuel'
+                    when LPAD(CAST("DEROU" AS TEXT), 3, '0') = '001' then 'dom__un_deux_roues'
                 
-                    when 'Z' then 'pr_etudes_sans_objet_non_inscrit'
+                    when LPAD(CAST("DEROU" AS TEXT), 3, '0') = '002' then 'dom__deux_deux_roues'
                 
-                    when '6' then 'pr_etudes_hors_region_actuelle_com'
-                
-                    when '1' then 'pr_etudes_commune_actuelle'
-                
-                    when '5' then 'pr_etudes_hors_region_actuelle_dom'
-                
-                    when '7' then 'pr_etudes_etranger'
-                
-            END AS "ILETUDM",
+            END AS "DEROU",
         
-            CASE "VOIT"
+            CASE
                 
-                    when '3' then 'menages_3_et_plus_voitures'
+                    when LPAD(CAST("VOIT" AS TEXT), 3, '0') = '002' then 'menages_2_voitures'
                 
-                    when '0' then 'menages_0_voiture'
+                    when LPAD(CAST("VOIT" AS TEXT), 3, '0') = '000' then 'menages_0_voiture'
                 
-                    when '2' then 'menages_2_voitures'
+                    when LPAD(CAST("VOIT" AS TEXT), 3, '0') = '001' then 'menages_1_voiture'
                 
-                    when '1' then 'menages_1_voiture'
+                    when LPAD(CAST("VOIT" AS TEXT), 3, '0') = '003' then 'menages_3_et_plus_voitures'
                 
             END AS "VOIT",
         
-            CASE "ILTM"
+            CASE
                 
-                    when '4' then 'pr_travail_hors_region_actuelle_metropole'
+                    when LPAD(CAST("ILTM" AS TEXT), 3, '0') = '006' then 'pr_travail_hors_region_actuelle_com'
                 
-                    when 'Z' then 'pr_travail_sans_objet_sans_emploi'
+                    when LPAD(CAST("ILTM" AS TEXT), 3, '0') = '002' then 'pr_travail_commune_departement_actuel'
                 
-                    when '5' then 'pr_travail_hors_region_actuelle_dom'
+                    when LPAD(CAST("ILTM" AS TEXT), 3, '0') = '007' then 'pr_travail_etranger'
                 
-                    when '7' then 'pr_travail_etranger'
+                    when LPAD(CAST("ILTM" AS TEXT), 3, '0') = '005' then 'pr_travail_hors_region_actuelle_dom'
                 
-                    when '6' then 'pr_travail_hors_region_actuelle_com'
+                    when LPAD(CAST("ILTM" AS TEXT), 3, '0') = '003' then 'pr_travail_department_region_actuel'
                 
-                    when '2' then 'pr_travail_commune_departement_actuel'
+                    when LPAD(CAST("ILTM" AS TEXT), 3, '0') = '004' then 'pr_travail_hors_region_actuelle_metropole'
                 
-                    when '3' then 'pr_travail_department_region_actuel'
+                    when LPAD(CAST("ILTM" AS TEXT), 3, '0') = '00Z' then 'pr_travail_sans_objet_sans_emploi'
                 
-                    when '1' then 'pr_travail_commune_actuelle'
+                    when LPAD(CAST("ILTM" AS TEXT), 3, '0') = '001' then 'pr_travail_commune_actuelle'
                 
             END AS "ILTM",
         
-            CASE "TRANSM"
+            CASE
                 
-                    when '4' then 'menages_pr_transport_travail_deux_roues'
+                    when LPAD(CAST("TRANSM" AS TEXT), 3, '0') = '002' then 'menages_pr_transport_travail_pieds'
                 
-                    when '5' then 'menages_pr_transport_travail_voiture'
+                    when LPAD(CAST("TRANSM" AS TEXT), 3, '0') = '004' then 'menages_pr_transport_travail_deux_roues'
                 
-                    when '6' then 'menages_pr_transport_travail_transport_commune'
+                    when LPAD(CAST("TRANSM" AS TEXT), 3, '0') = '006' then 'menages_pr_transport_travail_transport_commune'
                 
-                    when '3' then 'menages_pr_transport_travail_velo'
+                    when LPAD(CAST("TRANSM" AS TEXT), 3, '0') = '005' then 'menages_pr_transport_travail_voiture'
                 
-                    when '2' then 'menages_pr_transport_travail_pieds'
+                    when LPAD(CAST("TRANSM" AS TEXT), 3, '0') = '003' then 'menages_pr_transport_travail_velo'
                 
             END AS "TRANSM",
         
-            CASE "DEROU"
+            CASE
                 
-                    when '3' then 'dom__trois_ou_plus_deux_roues'
+                    when LPAD(CAST("IMMIM" AS TEXT), 3, '0') = '001' then 'pr_immigration_immigre'
                 
-                    when '1' then 'dom__un_deux_roues'
+                    when LPAD(CAST("IMMIM" AS TEXT), 3, '0') = '002' then 'pr_immigration_non_immigre'
                 
-                    when '2' then 'dom__deux_deux_roues'
+            END AS "IMMIM",
+        
+            CASE
                 
-                    when '0' then 'dom__aucun_deux_roues'
+                    when LPAD(CAST("ILETUDM" AS TEXT), 3, '0') = '007' then 'pr_etudes_etranger'
                 
-            END AS "DEROU",
+                    when LPAD(CAST("ILETUDM" AS TEXT), 3, '0') = '005' then 'pr_etudes_hors_region_actuelle_dom'
+                
+                    when LPAD(CAST("ILETUDM" AS TEXT), 3, '0') = '003' then 'pr_etudes_department_region_actuel'
+                
+                    when LPAD(CAST("ILETUDM" AS TEXT), 3, '0') = '006' then 'pr_etudes_hors_region_actuelle_com'
+                
+                    when LPAD(CAST("ILETUDM" AS TEXT), 3, '0') = '00Z' then 'pr_etudes_sans_objet_non_inscrit'
+                
+                    when LPAD(CAST("ILETUDM" AS TEXT), 3, '0') = '004' then 'pr_etudes_hors_region_actuelle_metropole'
+                
+                    when LPAD(CAST("ILETUDM" AS TEXT), 3, '0') = '001' then 'pr_etudes_commune_actuelle'
+                
+                    when LPAD(CAST("ILETUDM" AS TEXT), 3, '0') = '002' then 'pr_etudes_commune_departement_actuel'
+                
+            END AS "ILETUDM",
         
         CAST(CAST("IPONDL" AS NUMERIC) AS INT) AS poids_du_logement
     
