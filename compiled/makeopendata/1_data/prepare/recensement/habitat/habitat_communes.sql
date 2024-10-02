@@ -7324,7 +7324,7 @@ select * from aggregated
       *
     FROM
       aggregated
-    JOIN
+    LEFT JOIN
 	    "defaultdb"."prepare"."infos_communes" as infos_communes
     ON
       aggregated.code_commune_insee = infos_communes.code_commune

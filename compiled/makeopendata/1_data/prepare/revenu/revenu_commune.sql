@@ -8,33 +8,87 @@ with filosofi_commune as (
 renamed_columns as (
     select
         "CODGEO" as code_commune_2024,
-        nullif("NBMENFISC21", 's') as nombre_menages_fiscaux,
-        nullif("NBPERSMENFISC21", 's') as nombre_personnes,
-        nullif("MED21", 's') as mediane_niveau_vie_euro,
-        nullif("PIMP21", 's') as part_menages_fiscaux_imposes_pourcentage,
-        nullif("TP6021", 's') as taux_pauvrete_ensemble_pourcentage,
-        nullif("TP60AGE121", 's') as taux_pauvrete_moins_30_ans_pourcentage,
-        nullif("TP60AGE221", 's') as taux_pauvrete_30_39_ans_pourcentage,
-        nullif("TP60AGE321", 's') as taux_pauvrete_40_49_ans_pourcentage,
-        nullif("TP60AGE421", 's') as taux_pauvrete_50_59_ans_pourcentage,
-        nullif("TP60AGE521", 's') as taux_pauvrete_60_74_ans_pourcentage,
-        nullif("TP60AGE621", 's') as taux_pauvrete_75_ans_ou_plus_pourcentage,
-        nullif("TP60TOL121", 's') as taux_pauvrete_proprietaires_pourcentage,
-        nullif("TP60TOL221", 's') as taux_pauvrete_locataires_pourcentage,
-        nullif("PACT21", 's') as part_revenus_activite_pourcentage,
-        nullif("PTSA21", 's') as part_salaires_traitements_pourcentage,
-        nullif("PCHO21", 's') as part_indemnites_chomage_pourcentage,
-        nullif("PBEN21", 's') as part_revenus_activites_non_salariees_pourcentage,
-        nullif("PPEN21", 's') as part_pensions,
-        nullif("PPAT21", 's') as part_revenus_patrimoine_autres_revenus_pourcentage,
-        nullif("PPSOC21", 's') as part_ensemble_prestations_sociales_pourcentage,
-        nullif("PPFAM21", 's') as part_prestations_familiales_pourcentage,
-        nullif("PPMINI21", 's') as part_minima_sociaux_pourcentage,
-        nullif("PPLOGT21", 's') as part_prestations_logement_pourcentage,
-        nullif("PIMPOT21", 's') as part_des_impots_pourcentage,
-        nullif("D121", 's') as decile_1_niveau_vie_euro,
-        nullif("D921", 's') as decile_9_niveau_vie_euro,
-        nullif("RD21", 's') as rapport_interdecile_9_1
+        
+        cast(nullif(nullif(nullif(nullif(replace("NBMENFISC21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as nombre_menages_fiscaux,
+        
+        cast(nullif(nullif(nullif(nullif(replace("NBPERSMENFISC21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as nombre_personnes,
+        
+        cast(nullif(nullif(nullif(nullif(replace("MED21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as mediane_niveau_vie_euro,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PIMP21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_menages_fiscaux_imposes_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP6021", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_ensemble_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP60AGE121", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_moins_30_ans_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP60AGE221", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_30_39_ans_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP60AGE321", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_40_49_ans_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP60AGE421", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_50_59_ans_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP60AGE521", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_60_74_ans_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP60AGE621", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_75_ans_ou_plus_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP60TOL121", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_proprietaires_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("TP60TOL221", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as taux_pauvrete_locataires_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PACT21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_revenus_activite_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PTSA21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_salaires_traitements_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PCHO21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_indemnites_chomage_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PBEN21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_revenus_activites_non_salariees_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PPEN21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_pensions,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PPAT21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_revenus_patrimoine_autres_revenus_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PPSOC21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_ensemble_prestations_sociales_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PPFAM21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_prestations_familiales_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PPMINI21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_minima_sociaux_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PPLOGT21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_prestations_logement_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("PIMPOT21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as part_des_impots_pourcentage,
+        
+        cast(nullif(nullif(nullif(nullif(replace("D121", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as decile_1_niveau_vie_euro,
+        
+        cast(nullif(nullif(nullif(nullif(replace("D921", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as decile_9_niveau_vie_euro,
+        
+        cast(nullif(nullif(nullif(nullif(replace("RD21", ',', '.'), 'ns'), 'so'), 's'), 'nd') as NUMERIC)
+ as rapport_interdecile_9_1
     from filosofi_commune
 ),
 aggregated_with_infos_communes as (

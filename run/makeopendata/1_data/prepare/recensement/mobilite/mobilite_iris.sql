@@ -1851,11 +1851,21 @@ select * from pivoted
 
 select * from aggregated
 
-)
+), 
+aggregated_with_infos_iris as (
+    SELECT
+      *
+    FROM
+      aggregated
+    LEFT JOIN
+	    "defaultdb"."prepare"."infos_iris" as infos_iris
+    ON
+      aggregated.code_iris = infos_iris.code_iris_2024
+  )
 
 SELECT 
     *  
 FROM
-    aggregated
+    aggregated_with_infos_iris
   );
   
