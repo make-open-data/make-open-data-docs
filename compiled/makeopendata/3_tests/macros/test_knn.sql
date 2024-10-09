@@ -1,4 +1,4 @@
--- depends_on: "defaultdb"."prepare"."fake_knn_data"
+-- depends_on: "defaultdb"."simulations"."fake_knn_data"
 
 -- Define expected values
 WITH expected AS (
@@ -17,10 +17,10 @@ WITH knn AS (
         a.id AS id,
         AVG(b.valeur) AS prix_m2_knn_2
     FROM 
-        "defaultdb"."prepare"."fake_knn_data" a
+        "defaultdb"."simulations"."fake_knn_data" a
         JOIN LATERAL (
             SELECT valeur
-            FROM "defaultdb"."prepare"."fake_knn_data"
+            FROM "defaultdb"."simulations"."fake_knn_data"
             WHERE (id != a.id)
             ORDER BY a.geopoint <-> geopoint
             LIMIT 2

@@ -1,18 +1,12 @@
 
-  
+  create view "defaultdb"."simulations"."fake_knn_data__dbt_tmp"
     
-
-  create  table "defaultdb"."prepare"."fake_knn_data__dbt_tmp"
-  
-  
-    as
-  
-  (
+    
+  as (
     -- Pour tester la fonction knn, nous devons créer une table avec des données fictives 
 -- (impossible de faire des tests unitaires sur des données qui ne sont pas dans une table). 
 -- crée une fausse table avec id, latitude, longitude, et valeur columns
 -- S'assurer que le calcul ne se fait pas sur l'objet de la table
-
 
 
 WITH fake_knn_table AS (
@@ -26,4 +20,3 @@ WITH fake_knn_table AS (
 
 select * from fake_knn_table
   );
-  
