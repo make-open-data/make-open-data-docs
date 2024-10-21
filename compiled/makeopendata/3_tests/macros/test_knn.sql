@@ -21,7 +21,7 @@ WITH knn AS (
         JOIN LATERAL (
             SELECT valeur
             FROM "defaultdb"."simulations"."fake_knn_data"
-            WHERE (id != a.id)
+            WHERE (id != a.id) AND (millesime = a.millesime)
             ORDER BY a.geopoint <-> geopoint
             LIMIT 2
         ) b ON TRUE
