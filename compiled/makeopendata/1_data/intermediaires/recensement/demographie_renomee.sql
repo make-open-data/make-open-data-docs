@@ -579,6 +579,26 @@ logement_renomee AS (
                 
             END AS "INP65M",
         
+            CASE
+                
+                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '015' then 'pr_age_15_19'
+                
+                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '080' then 'pr_age_plus_80'
+                
+                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '020' then 'pr_age_20_24'
+                
+                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '040' then 'pr_age_40_54'
+                
+                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '000' then 'pr_age_moins_15'
+                
+                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '055' then 'pr_age_55_64'
+                
+                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '025' then 'pr_age_25_39'
+                
+                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '065' then 'pr_age_64_79'
+                
+            END AS "AGEMEN8",
+        
         CAST(CAST("IPONDL" AS NUMERIC) AS INT) AS poids_du_logement
     
     FROM 

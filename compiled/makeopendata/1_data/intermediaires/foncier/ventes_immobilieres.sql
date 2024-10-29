@@ -107,7 +107,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2014 as millesime
+    TO_DATE(CAST(2014 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -206,7 +206,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2015 as millesime
+    TO_DATE(CAST(2015 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -305,7 +305,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2016 as millesime
+    TO_DATE(CAST(2016 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -404,7 +404,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2017 as millesime
+    TO_DATE(CAST(2017 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -503,7 +503,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2018 as millesime
+    TO_DATE(CAST(2018 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -602,7 +602,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2019 as millesime
+    TO_DATE(CAST(2019 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -701,7 +701,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2020 as millesime
+    TO_DATE(CAST(2020 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -800,7 +800,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2021 as millesime
+    TO_DATE(CAST(2021 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -899,7 +899,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2022 as millesime
+    TO_DATE(CAST(2022 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -998,7 +998,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2023 as millesime
+    TO_DATE(CAST(2023 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 
@@ -1097,7 +1097,7 @@ SELECT
     infos_communes.nom_arrondissement,
     infos_communes.nom_departement,
     infos_communes.nom_region,
-    2024 as millesime
+    TO_DATE(CAST(2024 as TEXT), 'YYYY') as millesime
 FROM 
     bien_principal_de_la_vente
 JOIN 

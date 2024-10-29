@@ -156,10 +156,6 @@ with unpivoted as (
       
     
   
-    
-      
-    
-  
 
   select
         "poids_du_logement",
@@ -421,10 +417,6 @@ with unpivoted as (
       
     
   
-    
-  
-    
-      
     
   
     
@@ -1160,10 +1152,6 @@ with unpivoted as (
       
     
   
-    
-      
-    
-  
 
   select
         "poids_du_logement",
@@ -1452,365 +1440,6 @@ with unpivoted as (
       
     
   
-    
-      
-    
-  
-
-  select
-        "poids_du_logement",
-        "code_commune_insee",
-        "code_iris",
-
-      cast('CATL' as TEXT) as "champs",
-      cast(  
-           "CATL"
-             
-           as varchar) as "valeur"
-
-    from "defaultdb"."intermediaires"."habitat_renomee"
-
-    union all
-    select
-        "poids_du_logement",
-        "code_commune_insee",
-        "code_iris",
-
-      cast('AGEMEN8' as TEXT) as "champs",
-      cast(  
-           "AGEMEN8"
-             
-           as varchar) as "valeur"
-
-    from "defaultdb"."intermediaires"."habitat_renomee"
-
-    
-
-
-
-), 
-unpivot_filtree as (
-        
-
-    SELECT
-        code_commune_insee, 
-        poids_du_logement,
-        valeur
-    FROM
-        unpivoted
-    WHERE
-        valeur in (
-        
-            'pr_moins_15'  , 
-        
-            'pr_15_19'  , 
-        
-            'pr_20_24'  , 
-        
-            'pr_25_39'  , 
-        
-            'pr_40_54'  , 
-        
-            'pr_55_64'  , 
-        
-            'pr_64_79'  , 
-        
-            'pr_plus_80' 
-        )
-
-
-),
-pivoted as (
-        
-
-    
-    
-        
-            
-        
-      
-        
-            
-        
-      
-        
-            
-        
-      
-        
-            
-        
-      
-        
-            
-        
-      
-        
-            
-        
-      
-        
-            
-        
-      
-        
-            
-        
-      
-
-    select 
-
-    code_commune_insee,
-    
-  
-    sum(
-      
-      case
-      when valeur = 'pr_moins_15'
-        then poids_du_logement
-      else 0
-      end
-    )
-    
-      
-            as "pr_moins_15"
-      
-    
-    ,
-  
-    sum(
-      
-      case
-      when valeur = 'pr_15_19'
-        then poids_du_logement
-      else 0
-      end
-    )
-    
-      
-            as "pr_15_19"
-      
-    
-    ,
-  
-    sum(
-      
-      case
-      when valeur = 'pr_20_24'
-        then poids_du_logement
-      else 0
-      end
-    )
-    
-      
-            as "pr_20_24"
-      
-    
-    ,
-  
-    sum(
-      
-      case
-      when valeur = 'pr_25_39'
-        then poids_du_logement
-      else 0
-      end
-    )
-    
-      
-            as "pr_25_39"
-      
-    
-    ,
-  
-    sum(
-      
-      case
-      when valeur = 'pr_40_54'
-        then poids_du_logement
-      else 0
-      end
-    )
-    
-      
-            as "pr_40_54"
-      
-    
-    ,
-  
-    sum(
-      
-      case
-      when valeur = 'pr_55_64'
-        then poids_du_logement
-      else 0
-      end
-    )
-    
-      
-            as "pr_55_64"
-      
-    
-    ,
-  
-    sum(
-      
-      case
-      when valeur = 'pr_64_79'
-        then poids_du_logement
-      else 0
-      end
-    )
-    
-      
-            as "pr_64_79"
-      
-    
-    ,
-  
-    sum(
-      
-      case
-      when valeur = 'pr_plus_80'
-        then poids_du_logement
-      else 0
-      end
-    )
-    
-      
-            as "pr_plus_80"
-      
-    
-    
-  
-
-    from 
-        unpivot_filtree
-    group by
-        code_commune_insee
-
-
-)
-
-select * from pivoted
-  ) as alias_AGEMEN8_par_geo
-      USING (code_commune_insee)
-
-    
-
-      LEFT JOIN ( 
-
-
-
-
-
-
-with unpivoted as (
-      
-
-
--- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
-  
-
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
 
   select
         "poids_du_logement",
@@ -2004,10 +1633,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       
@@ -2339,10 +1964,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -2546,10 +2167,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       
@@ -2973,10 +2590,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -3248,10 +2861,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -3481,10 +3090,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -3672,10 +3277,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       
@@ -4087,10 +3688,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -4425,10 +4022,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -4646,10 +4239,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       
@@ -4975,10 +4564,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -5146,10 +4731,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       
@@ -5441,10 +5022,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -5604,10 +5181,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       
@@ -5991,10 +5564,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -6146,10 +5715,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       
@@ -6478,10 +6043,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -6625,10 +6186,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       
@@ -6944,10 +6501,6 @@ with unpivoted as (
     
   
     
-      
-    
-  
-    
   
     
       
@@ -7083,10 +6636,6 @@ with unpivoted as (
 -- Prends toutes les colonnes sauf la colonne à considérer, pour donne en paramètre à unpivot
   
 
-  
-    
-      
-    
   
     
       

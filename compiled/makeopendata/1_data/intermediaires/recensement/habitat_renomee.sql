@@ -277,26 +277,6 @@ logement_renomee AS (
         
             CASE
                 
-                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '055' then 'pr_55_64'
-                
-                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '020' then 'pr_20_24'
-                
-                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '015' then 'pr_15_19'
-                
-                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '000' then 'pr_moins_15'
-                
-                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '080' then 'pr_plus_80'
-                
-                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '025' then 'pr_25_39'
-                
-                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '065' then 'pr_64_79'
-                
-                    when LPAD(CAST("AGEMEN8" AS TEXT), 3, '0') = '040' then 'pr_40_54'
-                
-            END AS "AGEMEN8",
-        
-            CASE
-                
                     when LPAD(CAST("STOCD" AS TEXT), 3, '0') = '023' then 'logements_occupes_par_locataire_meuble_hotel'
                 
                     when LPAD(CAST("STOCD" AS TEXT), 3, '0') = '010' then 'logements_occupes_par_proprietaires'
